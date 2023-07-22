@@ -1,7 +1,8 @@
 <script lang="ts">
-interface Todo {
+export interface Todo {
   id: number;
   title: string;
+  isCompleted: boolean
 }
 </script>
 
@@ -14,12 +15,21 @@ const addTodo = () => {
   const todo: Todo = {
     id: todos.value.length + 1,
     title: newTodoTitle.value.trim(),
+    isCompleted: false
   };
   todos.value.push(todo);
   newTodoTitle.value = '';
 };
 
-const removeTodo = (id: number) => {
+const updateTodoTitle = (id: number, title: string) => {
+  todos.value = todos.value.map(todo => todo.id === id ? {...todo, title} : todo)
+};
+const updateTodoCompletedStatus = (id: number, isCompleted: boolean) => {
+  console.log('isCompleted', isCompleted)
+  todos.value = todos.value.map(todo => todo.id === id ? {...todo, isCompleted} : todo)
+  console.log('test', todos.value)
+};
+const deleteTodo = (id: number) => {
   const index = todos.value.findIndex(todo => todo.id === id);
   if (index !== -1) {
     todos.value.splice(index, 1);
@@ -35,10 +45,11 @@ const removeTodo = (id: number) => {
       <button @click="addTodo">Add</button>
     </div>
     <ul>
-      <li v-for="todo in todos" :key="todo.id">
-        <span>{{ todo.title }}</span>
-        <button @click="removeTodo(todo.id)">Remove</button>
-      </li>
+      <TodoItem
+        v-for="todo in todos" :key="todo.id"
+        :todo="todo"
+        @handle-update="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
+      />
     </ul>
   </div>
 </template>
@@ -73,19 +84,5 @@ h1 {
 ul {
   list-style: none;
   padding: 0;
-
-  li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-
-    button {
-      background-color: red;
-      color: white;
-    }
-  }
 }
 </style>
