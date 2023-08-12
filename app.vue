@@ -48,7 +48,7 @@ const deleteTodo = (id: number) => {
       <TodoItem
         v-for="todo in todos" :key="todo.id"
         :todo="todo"
-        @handle-update="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
+        @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
       />
     </ul>
   </div>
