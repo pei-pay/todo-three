@@ -1,12 +1,9 @@
 <script lang="ts">
-export interface Todo {
-  id: number;
-  title: string;
-  isCompleted: boolean
-}
+import { Todo } from 'entity/todo';
 </script>
 
 <script setup lang="ts">
+
 const todos = ref<Todo[]>([]);
 const newTodoTitle = ref<string>('');
 
