@@ -13,5 +13,9 @@
     "@types/node": "^18.16.19",
     "nuxt": "^3.6.5",
     "sass": "^1.64.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.1.1",
+    "prisma": "^5.1.1"
   }
 }

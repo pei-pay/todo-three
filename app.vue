@@ -4,33 +4,34 @@ import { Todo } from 'entity/todo';
 
 <script setup lang="ts">
 
-const todos = ref<Todo[]>([]);
+// FIXME: useFetch type definition
+const { data: todos, refresh } = useFetch('/api/todo.get');
+
 const newTodoTitle = ref<string>('');
 
-const addTodo = () => {
+const addTodo = async () => {
   if (newTodoTitle.value.trim() === '') return;
-  const todo: Todo = {
-    id: todos.value.length + 1,
-    title: newTodoTitle.value.trim(),
-    isCompleted: false
-  };
-  todos.value.push(todo);
+  const { data } = await useFetch('/api/todo.posts', {
+    method: 'post',
+    body: { title: newTodoTitle.value },
+  });
+  refresh()
   newTodoTitle.value = '';
 };
 
 const updateTodoTitle = (id: number, title: string) => {
-  todos.value = todos.value.map(todo => todo.id === id ? {...todo, title} : todo)
+  // todos.value = todos.value.map(todo => todo.id === id ? {...todo, title} : todo)
 };
 const updateTodoCompletedStatus = (id: number, isCompleted: boolean) => {
-  console.log('isCompleted', isCompleted)
-  todos.value = todos.value.map(todo => todo.id === id ? {...todo, isCompleted} : todo)
-  console.log('test', todos.value)
+  // console.log('isCompleted', isCompleted)
+  // todos.value = todos.value.map(todo => todo.id === id ? {...todo, isCompleted} : todo)
+  // console.log('test', todos.value)
 };
 const deleteTodo = (id: number) => {
-  const index = todos.value.findIndex(todo => todo.id === id);
-  if (index !== -1) {
-    todos.value.splice(index, 1);
-  }
+  // const index = todos.value.findIndex(todo => todo.id === id);
+  // if (index !== -1) {
+  //   todos.value.splice(index, 1);
+  // }
 };
 </script>
 
