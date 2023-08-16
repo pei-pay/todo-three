@@ -1,17 +1,16 @@
 <script lang="ts">
-import { Todo } from 'entity/todo';
 </script>
 
 <script setup lang="ts">
 
 // FIXME: useFetch type definition
-const { data: todos, refresh } = useFetch('/api/todo.get');
+const { data: todos, refresh } = useFetch('/api/todo');
 
 const newTodoTitle = ref<string>('');
 
 const addTodo = async () => {
   if (newTodoTitle.value.trim() === '') return;
-  const { data } = await useFetch('/api/todo.posts', {
+  await useFetch('/api/todo', {
     method: 'post',
     body: { title: newTodoTitle.value },
   });
@@ -19,19 +18,26 @@ const addTodo = async () => {
   newTodoTitle.value = '';
 };
 
-const updateTodoTitle = (id: number, title: string) => {
-  // todos.value = todos.value.map(todo => todo.id === id ? {...todo, title} : todo)
+const updateTodoTitle = async (id: number, title: string) => {
+  await useFetch('/api/todo', {
+    method: 'put',
+    body: { id: id, title: title },
+  });
+  refresh()
 };
+
 const updateTodoCompletedStatus = (id: number, isCompleted: boolean) => {
+  // TODO: update todo completed status 
   // console.log('isCompleted', isCompleted)
   // todos.value = todos.value.map(todo => todo.id === id ? {...todo, isCompleted} : todo)
   // console.log('test', todos.value)
 };
-const deleteTodo = (id: number) => {
-  // const index = todos.value.findIndex(todo => todo.id === id);
-  // if (index !== -1) {
-  //   todos.value.splice(index, 1);
-  // }
+const deleteTodo = async (id: number) => {
+  await useFetch('/api/todo', {
+    method: 'delete',
+    body: { id },
+  });
+  refresh()
 };
 </script>
 
