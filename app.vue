@@ -4,13 +4,13 @@
 <script setup lang="ts">
 
 // FIXME: useFetch type definition
-const { data: todos, refresh } = useFetch('/api/todo/crud');
+const { data: todos, refresh } = useFetch('/api/todo/base');
 
 const newTodoTitle = ref<string>('');
 
 const addTodo = async () => {
   if (newTodoTitle.value.trim() === '') return;
-  await useFetch('/api/todo/crud', {
+  await useFetch('/api/todo/base', {
     method: 'post',
     body: { title: newTodoTitle.value },
   });
@@ -19,7 +19,7 @@ const addTodo = async () => {
 };
 
 const updateTodoTitle = async (id: number, title: string) => {
-  await useFetch('/api/todo/crud', {
+  await useFetch('/api/todo/base', {
     method: 'put',
     body: { id: id, title: title },
   });
@@ -34,7 +34,7 @@ const updateTodoCompletedStatus = async (id: number, isCompleted: boolean) => {
   refresh()
 };
 const deleteTodo = async (id: number) => {
-  await useFetch('/api/todo/crud', {
+  await useFetch('/api/todo/base', {
     method: 'delete',
     body: { id },
   });
