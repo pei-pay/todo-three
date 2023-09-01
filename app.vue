@@ -4,13 +4,13 @@
 <script setup lang="ts">
 
 // FIXME: useFetch type definition
-const { data: todos, refresh } = useFetch('/api/todo');
+const { data: todos, refresh } = useFetch('/api/todo/crud');
 
 const newTodoTitle = ref<string>('');
 
 const addTodo = async () => {
   if (newTodoTitle.value.trim() === '') return;
-  await useFetch('/api/todo', {
+  await useFetch('/api/todo/crud', {
     method: 'post',
     body: { title: newTodoTitle.value },
   });
@@ -19,21 +19,22 @@ const addTodo = async () => {
 };
 
 const updateTodoTitle = async (id: number, title: string) => {
-  await useFetch('/api/todo', {
+  await useFetch('/api/todo/crud', {
     method: 'put',
     body: { id: id, title: title },
   });
   refresh()
 };
 
-const updateTodoCompletedStatus = (id: number, isCompleted: boolean) => {
-  // TODO: update todo completed status 
-  // console.log('isCompleted', isCompleted)
-  // todos.value = todos.value.map(todo => todo.id === id ? {...todo, isCompleted} : todo)
-  // console.log('test', todos.value)
+const updateTodoCompletedStatus = async (id: number, isCompleted: boolean) => {
+  await useFetch('/api/todo/completedStatus', {
+    method: 'put',
+    body: { id: id, isCompleted },
+  });
+  refresh()
 };
 const deleteTodo = async (id: number) => {
-  await useFetch('/api/todo', {
+  await useFetch('/api/todo/crud', {
     method: 'delete',
     body: { id },
   });

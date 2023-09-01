@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Todo } from 'app.vue';
+import { Todo } from '~/entity/todo';
 
 interface Props {
   todo: Todo
@@ -28,7 +28,8 @@ const handleUpdateReset = () => {
 <template>
   <li class="todo-item">
     <input 
-      :value="todo.isCompleted" type="checkbox" 
+      type="checkbox"
+      :checked="todo.isCompleted"
       @change="$emit('handleUpdateCompletedStatus', todo.id,  !todo.isCompleted)"
     >
     <input 
