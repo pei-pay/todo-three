@@ -18,7 +18,7 @@ const addTodo = async () => {
     method: 'post',
     body: { title: newTodoTitle.value },
   });
-  refresh()
+  refresh();
   newTodoTitle.value = '';
 };
 
@@ -27,7 +27,7 @@ const updateTodoTitle = async (id: number, title: string) => {
     method: 'put',
     body: { id: id, title: title },
   });
-  refresh()
+  refresh();
 };
 
 const updateTodoCompletedStatus = async (id: number, isCompleted: boolean) => {
@@ -35,14 +35,14 @@ const updateTodoCompletedStatus = async (id: number, isCompleted: boolean) => {
     method: 'put',
     body: { id: id, isCompleted },
   });
-  refresh()
+  refresh();
 };
 const deleteTodo = async (id: number) => {
   await useFetch('/api/todo/base', {
     method: 'delete',
     body: { id },
   });
-  refresh()
+  refresh();
 };
 </script>
 
@@ -51,24 +51,24 @@ const deleteTodo = async (id: number) => {
     <h1>Three Todo</h1>
     <div class="input-container">
       <input v-model="newTodoTitle" @keyup.enter="addTodo" placeholder="Add a new todo" />
-      <button @click="addTodo">Add</button>
+      <button @click="addTodo" :disabled="uncompletedTodos.length >= 3">Add</button>
     </div>
-    <ul>
-      <TodoItem
-        v-for="todo in uncompletedTodos.filter(todo => !todo.isCompleted)" :key="todo.id"
-        :todo="todo"
-        @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
-      />
-    </ul>
 
-    <div v-if="completedTodos.length">
+    <div class="uncompleted-todos-container">
+      <ul v-if="uncompletedTodos.length">
+        <TodoItem v-for="todo in uncompletedTodos.filter(todo => !todo.isCompleted)" :key="todo.id" :todo="todo"
+          @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus"
+          @handle-delete="deleteTodo" />
+      </ul>
+      <p v-else>nothing to do...</p>
+    </div>
+
+    <div v-if="completedTodos.length" class="completed-todos-container">
       <p>Completed todos</p>
       <ul>
-        <TodoItem
-          v-for="todo in completedTodos.filter(todo => todo.isCompleted)" :key="todo.id"
-          :todo="todo"
-          @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
-        />
+        <TodoItem v-for="todo in completedTodos.filter(todo => todo.isCompleted)" :key="todo.id" :todo="todo"
+          @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus"
+          @handle-delete="deleteTodo" />
       </ul>
     </div>
   </div>
@@ -98,6 +98,29 @@ h1 {
   button {
     margin-left: 10px;
     padding: 5px 10px;
+  }
+}
+
+.uncompleted-todos-container {
+  border: 1px solid salmon;
+  margin-bottom: 16px;
+
+  ul {
+    margin: 0;
+  }
+
+  p {
+    text-align: center;
+  }
+}
+
+.completed-todos-container {
+  p {
+    margin: 4px;
+  }
+
+  ul {
+    margin: 0;
   }
 }
 
