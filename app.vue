@@ -102,7 +102,7 @@ h1 {
 }
 
 .uncompleted-todos-container {
-  border: 1px solid salmon;
+  border: 3px solid salmon;
   margin-bottom: 16px;
 
   ul {
