@@ -1,12 +1,16 @@
 <script lang="ts">
+import { Todo } from '~/entity/todo';
 </script>
 
 <script setup lang="ts">
 
-// FIXME: useFetch type definition
-const { data: todos, refresh } = useFetch('/api/todo/base');
+// FIXME: use prisma type
+const { data: todos, refresh } = useFetch<Todo[]>('/api/todo/base');
 
 const newTodoTitle = ref<string>('');
+
+const completedTodos = computed(() => todos.value?.filter(todo => todo.isCompleted) ?? []);
+const uncompletedTodos = computed(() => todos.value?.filter(todo => !todo.isCompleted) ?? []);
 
 const addTodo = async () => {
   if (newTodoTitle.value.trim() === '') return;
@@ -51,11 +55,22 @@ const deleteTodo = async (id: number) => {
     </div>
     <ul>
       <TodoItem
-        v-for="todo in todos" :key="todo.id"
+        v-for="todo in uncompletedTodos.filter(todo => !todo.isCompleted)" :key="todo.id"
         :todo="todo"
         @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
       />
     </ul>
+
+    <div v-if="completedTodos.length">
+      <p>Completed todos</p>
+      <ul>
+        <TodoItem
+          v-for="todo in completedTodos.filter(todo => todo.isCompleted)" :key="todo.id"
+          :todo="todo"
+          @handle-update-title="updateTodoTitle" @handle-update-completed-status="updateTodoCompletedStatus" @handle-delete="deleteTodo" 
+        />
+      </ul>
+    </div>
   </div>
 </template>
 

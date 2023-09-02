@@ -11,4 +11,9 @@ model Todo {
   id      Int      @id @default(autoincrement())
   title   String
   isCompleted    Boolean
+  // description String @default("")
+  // weight Int
+  // createdDate DateTime @default(now())
+  // updatedDate DateTime @updatedAt
+  // completedDate DateTime?
 }
