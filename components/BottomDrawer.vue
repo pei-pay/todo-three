@@ -2,11 +2,7 @@
 export const useBottomDrawerCtx = () => {
   const isOpened = ref(false);
   const open = () => isOpened.value = true;
-  // const close = () => isOpened.value = false;
-  const close = () => {
-    console.log('閉じる!!');
-    isOpened.value = false;
-  };
+  const close = () => isOpened.value = false;
   return { isOpened, open, close };
 };
 </script>
