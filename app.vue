@@ -1,11 +1,14 @@
 <script lang="ts">
 import { Todo } from '~/entity/todo';
+import { useBottomDrawerCtx } from '~/components/BottomDrawer.vue';
 </script>
 
 <script setup lang="ts">
 
 // FIXME: use prisma type
 const { data: todos, refresh } = useFetch<Todo[]>('/api/todo/base');
+
+const bottomDrawerCtx = useBottomDrawerCtx();
 
 const newTodoTitle = ref<string>('');
 
@@ -50,8 +53,8 @@ const deleteTodo = async (id: number) => {
   <div class="container">
     <h1>Three Todo</h1>
     <div class="input-container">
-      <input v-model="newTodoTitle" @keyup.enter="addTodo" placeholder="Add a new todo" />
-      <button @click="addTodo" :disabled="uncompletedTodos.length >= 3">Add</button>
+      <!-- <input v-model="newTodoTitle" @keyup.enter="addTodo" placeholder="Add a new todo" /> -->
+      <button @click="bottomDrawerCtx.open" :disabled="uncompletedTodos.length >= 3">Add</button>
     </div>
 
     <div class="uncompleted-todos-container">
@@ -72,6 +75,14 @@ const deleteTodo = async (id: number) => {
       </ul>
     </div>
   </div>
+
+  <BottomDrawer :is-opened="bottomDrawerCtx.isOpened.value">
+    <div>ドロワー<button @click="bottomDrawerCtx.close">閉じる</button></div>
+    <div class="input-container">
+      <input v-model="newTodoTitle" @keyup.enter="addTodo" placeholder="Add a new todo" />
+      <button @click="addTodo">Add</button>
+    </div>
+  </BottomDrawer>
 </template>
 
 <style lang="scss">
@@ -90,13 +101,13 @@ h1 {
   align-items: center;
   margin-bottom: 10px;
 
-  input {
-    flex: 1;
-    padding: 5px;
-  }
+  // input {
+  //   flex: 1;
+  //   padding: 5px;
+  // }
 
   button {
-    margin-left: 10px;
+    // margin-left: 10px;
     padding: 5px 10px;
   }
 }
