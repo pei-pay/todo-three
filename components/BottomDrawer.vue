@@ -41,7 +41,7 @@ defineEmits<Emits>();
     height: 50%;
   }
 
-  &__content {
+  .bottom-drawer__content {
     background-color: #fff;
     height: 100%;
     padding: 20px;
