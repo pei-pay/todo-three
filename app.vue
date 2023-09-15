@@ -78,11 +78,11 @@ const deleteTodo = async (id: number) => {
 
   <BottomDrawer :is-opened="bottomDrawerCtx.isOpened.value">
     <!-- TODO: 閉じるボタンをコンポーネント内につける -->
-    <div>ドロワー<button @click="bottomDrawerCtx.close">閉じる</button></div>
-    <!-- TODO: input追加 description,weight -->
+    <div>ドロワー<button @click="bottomDrawerCtx.close">閉じる</button><button @click="addTodo">Add</button></div>
     <div class="input-container">
-      <input v-model="newTodoTitle" @keyup.enter="addTodo" placeholder="Add a new todo" />
-      <button @click="addTodo">Add</button>
+      <input v-model="newTodoTitle" type="text" @keyup.enter="addTodo" placeholder="title" />
+      <input type="number" placeholder="weight">
+      <input type="text" placeholder="description">
     </div>
   </BottomDrawer>
 </template>
