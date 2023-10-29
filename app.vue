@@ -23,6 +23,7 @@ const addTodo = async () => {
   });
   refresh();
   newTodoTitle.value = '';
+  bottomDrawerCtx.close();
 };
 
 const updateTodoTitle = async (id: number, title: string) => {
@@ -76,7 +77,7 @@ const deleteTodo = async (id: number) => {
     </div>
   </div>
 
-  <BottomDrawer :is-opened="bottomDrawerCtx.isOpened.value" @click="bottomDrawerCtx.close">
+  <BottomDrawer :is-opened="bottomDrawerCtx.isOpened.value" @close="bottomDrawerCtx.close">
     <button @click="addTodo">Add</button>
     <div class="input-container">
       <div>

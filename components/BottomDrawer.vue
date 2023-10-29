@@ -20,12 +20,12 @@ defineEmits<Emits>();
 
 <template>
   <div class="overlay-container">
-    <div v-if="isOpened" class="overlay">
+    <div v-if="isOpened" class="overlay" @click="$emit('close')">
       <div class="bottom-drawer overlay-content">
         <div class="bottom-drawer__header">
           <button @click="$emit('close')">Close</button>
         </div>
-        <div class="bottom-drawer__content">
+        <div class="bottom-drawer__content" @click.stop>
           <slot></slot>
         </div>
       </div>
