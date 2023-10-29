@@ -76,12 +76,13 @@ const deleteTodo = async (id: number) => {
     </div>
   </div>
 
-  <BottomDrawer :is-opened="bottomDrawerCtx.isOpened.value">
-    <!-- TODO: 閉じるボタンをコンポーネント内につける -->
-    <div>ドロワー<button @click="bottomDrawerCtx.close">閉じる</button><button @click="addTodo">Add</button></div>
+  <BottomDrawer :is-opened="bottomDrawerCtx.isOpened.value" @click="bottomDrawerCtx.close">
+    <button @click="addTodo">Add</button>
     <div class="input-container">
-      <input v-model="newTodoTitle" type="text" @keyup.enter="addTodo" placeholder="title" />
-      <input type="number" placeholder="weight">
+      <div>
+        <input v-model="newTodoTitle" type="text" @keyup.enter="addTodo" placeholder="title" />
+        <input type="number" placeholder="weight">
+      </div>
       <input type="text" placeholder="description">
     </div>
   </BottomDrawer>
@@ -99,17 +100,9 @@ h1 {
 }
 
 .input-container {
-  display: flex;
-  align-items: center;
   margin-bottom: 10px;
 
-  // input {
-  //   flex: 1;
-  //   padding: 5px;
-  // }
-
   button {
-    // margin-left: 10px;
     padding: 5px 10px;
   }
 }
