@@ -21,7 +21,7 @@ defineEmits<Emits>();
 <template>
   <div class="overlay-container">
     <div v-if="isOpened" class="overlay" @click="$emit('close')">
-      <div class="bottom-drawer overlay-content">
+      <div class="overlay-content bottom-drawer">
         <div class="bottom-drawer__header">
           <button @click="$emit('close')">Close</button>
         </div>
